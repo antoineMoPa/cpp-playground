@@ -25,7 +25,7 @@ public:
 			int posi = particles[i].x;
 			int posj = particles[i].y;
 			
-			if(posi < 0 || posi > w || posj < 0 || posj > h){
+			if(posi < 0 || posi >= w || posj < 0 || posj >= h){
 				continue;
 			}
 			

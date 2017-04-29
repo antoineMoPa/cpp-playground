@@ -88,6 +88,17 @@ Vec2 operator*(float lhs, Vec2 & rhs){
 	return ret;
 }
 
+float distance(Vec2 lhs, Vec2 rhs){
+	float ret;
+	float dx = rhs.x - lhs.x;
+	float dy = rhs.y - lhs.y;
+
+	ret = sqrt(pow(dy,2) + pow(dx,2));
+	
+	return ret;
+}
+
+
 void Vec2_test_suite(){
 	Vec2 my_vec;
 	my_vec.x = 2;
