@@ -80,13 +80,15 @@ public:
 		cell * bottom = bottom_cell(i,j);
 		
 		// Find nabla(u)
-		float dx = -(right->u.x - left->u.x);
-		float dy = top->u.y - bottom->u.y;
+		float dx = (right->u - left->u).x;
+		float dy = (top->u - bottom->u).y;
 		cur->nu.x = dx;
 		cur->nu.y = dy;
 		
-		//std::cout << top->u.y << " " << bottom->u.y << std::endl;
-		//std::cout << dx * 100000 << " " << dy * 100000 << std::endl;
+		if(dx != 0 || dy != 0){
+			//std::cout << top->u.y << " " << bottom->u.y << std::endl;
+			//std::cout << dx * 100000 << " " << dy * 100000 << std::endl;
+		}
 	}
 	
 	/**
@@ -99,8 +101,8 @@ public:
 		cell * right = right_cell(i,j);
 		cell * bottom = bottom_cell(i,j);
 		
-		float dx = -(right->nu.x - left->nu.x);
-		float dy = top->nu.y - bottom->nu.y;
+		float dx = (right->nu - left->nu).x;
+		float dy = (top->nu - bottom->nu).y;
 		cur->nnu.x = dx;
 		cur->nnu.y = dy;
 	}
@@ -112,18 +114,32 @@ public:
 		cell * right = right_cell(i,j);
 		cell * bottom = bottom_cell(i,j);
 		
-		float v = 10.0;
+		float v = 0.4;
 		
 		Vec2 du = v * cur->nnu - cur->u * cur->nu;
-        du *= 0.002;
+        du *= 0.008;
 		
 		cur->u += du;
 	}
+	
+	int pacman_clamp(int number, int max){
+		int ret = number;
+		
+		if(ret < 0){
+			ret += max;
+		} else if (ret > max) {
+			ret -= max;
+		}
 
+		ret = ret % max;
+		
+		return ret;
+	}
+	
 	void computeParticles(){
 		for(int i = 0; i < PARTICLES_NUM; i++){
-			int posi = particles[i].x;
-			int posj = particles[i].y;
+			int posi = pacman_clamp(particles[i].x, w);
+			int posj = pacman_clamp(particles[i].y, h);
 			
 			if(posi < 0 || posi > w || posj < 0 || posj > h){
 				particles[i].randomize(w, h);
@@ -135,42 +151,28 @@ public:
 			particles[i].y += cells[posi][posj].u.y;
 		}
 	}
-
-	int pacman_clamp(int number, int max){
-		int ret = number;
-		
-		if(ret < 0){
-			ret += max;
-		} else if (ret > max){
-			ret -= max;
-		}
-		
-		ret = ret % max;
-		
-		return ret;
-	}
 	
 	cell * top_cell(int i, int j){
-		j--;
-		j = pacman_clamp(j, h);
+		i--;
+		i = pacman_clamp(i, h);
 		return &cells[i][j];
 	}
 
 	cell * bottom_cell(int i, int j){
-		j++;
-		j = pacman_clamp(j, h);
+		i++;
+		i = pacman_clamp(i, h);
 		return &cells[i][j];
 	}
 
 	cell * right_cell(int i, int j){
-		i++;
-		i = pacman_clamp(i,w);
+		j++;
+		j = pacman_clamp(j,w);
 		return &cells[i][j];
 	}
 
 	cell * left_cell(int i, int j){
-		i--;
-		i = pacman_clamp(i,w);
+		j--;
+		j = pacman_clamp(j,w);
 		return &cells[i][j];
 	}
 	
@@ -185,8 +187,8 @@ int main(int argc, char ** argv){
 
 	Vec2_test_suite();
 	
-	int frames = 100;
-	int subframes = 20;
+	int frames = 1000;
+	int subframes = 50;
 	
 	grid.init();
 

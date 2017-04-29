@@ -13,11 +13,11 @@ public:
 		
 		for(int i = 0; i < w; i++){
 			for(int j = 0; j < h; j++){
-				//cell * cell = &cells[i][j];
-				//Vec2 * cu = &cell->u;
+				cell * cell = &cells[i][j];
+				Vec2 * cu = &cell->u;
 				
-				//v(i,j) = rgb8_pixel_t(cu->x * 255 + 128, cu->y * 255 + 128, 0);
-				v(i,j) = rgb8_pixel_t(0, 0, 0);
+				v(i,j) = rgb8_pixel_t(cu->x * 255 + 128, cu->y * 255 + 128, 0);
+				//v(i,j) = rgb8_pixel_t(0, 0, 0);
 			}
 		}
 
