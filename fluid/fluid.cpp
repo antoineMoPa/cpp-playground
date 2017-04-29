@@ -143,7 +143,7 @@ public:
 		float v = 0.4;
 		
 		Vec2 du = v * cur->nnu - cur->u * cur->nu;
-        du *= 0.002;
+		du *= 0.002;
 		
 		cur->u += du;
 	}
