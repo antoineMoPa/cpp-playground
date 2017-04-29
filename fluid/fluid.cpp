@@ -240,7 +240,7 @@ int main(int argc, char ** argv){
 
 		int percent = i/float(frames) * 100;
 		
-		std::cout << "done: " << i << "/" << frames << " ("<< percent << '%)\r';
+		std::cout << "done: " << i << "/" << frames << " ("<< percent << "%)\r";
 		std::cout.flush();
 		grid.save_image(filename);
 	}
