@@ -2,6 +2,9 @@
 
 SOME_FONTS=$(convert -list font | grep Font: | tr -s " " | grep -v jsMath | sed "s/ Font: //")
 
+mkdir fonts
+cd fonts
+
 root_folder=$PWD
 
 counter=0
@@ -9,10 +12,12 @@ counter=0
 for font in $SOME_FONTS; do
     mkdir $font
     cd $font
-    if [[ $counter > 20 ]]
-       # enough fonts already
-       exit;
+    if [[ $counter > 20 ]];
+    then
+	# enough fonts already
+	exit;
     fi
+       
     for i in {a..z} {A..Z};
     do
 	convert -font $font label:$i $i.png;
