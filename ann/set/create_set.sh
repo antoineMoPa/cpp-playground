@@ -12,7 +12,7 @@ counter=0
 for font in $SOME_FONTS; do
     mkdir $font
     cd $font
-    if (( $counter > 20 ));
+    if (( $counter >= 20 ));
     then
 	# enough fonts already
 	exit;
